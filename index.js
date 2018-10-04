@@ -40,24 +40,41 @@ server.listen(port, hostname, () => {
 });
 
 function getHandler(url) {
+  let date = new Date();
+  let log = "Дата: " + date.getDate() + "." + date.getMonth() + "." + date.getFullYear() + "\r\n";
+  log += "Время: " + date.getHours() + " ч. " + date.getMinutes() + " мин. \r\n"; 
+  log += "URL: " + url + "\r\n";
+  fs.appendFileSync("log.txt", log);
   return handlers[url] || notFound;
 }
 
+
+///==================ОБРАБОТЧИКИ URL====================
 //удаляет комментарий по переданному id
 function deleteArticle(req, res, payload, cb) {
-
-  let id = payload.id;
+  let result;
 
   const fileContent = fs.readFileSync("articles.json");
   const content = JSON.parse(fileContent);
 
-  
+  let id = payload.id;
+
+  let actualId;
+  (Array.from(content)).forEach(element => {
+    actualId = element.id;
+  });
+
+  if(id<actualId){
+    
   content[--id] ="{}";
 
   const newJson = JSON.stringify(content);
   fs.writeFileSync("js.json", newJson);
   
-  const result = "Article deleted";
+  result = "Article deleted";
+  }else{
+    result = "Ошибка: Выход за пределы массива.";
+  }
 
   cb(null, result);
 }
@@ -71,11 +88,13 @@ function update(req, res, payload, cb) {
   const fileContent = fs.readFileSync("articles.json");
   const content = JSON.parse(fileContent);
 
-  content[--id] = payload;
-
+  (Array.from(content)).forEach(element => {
+    if(id == element.id){
+      element = payload;
+    }
+  });
   const newJson = JSON.stringify(content);
   fs.writeFileSync("js.json", newJson);
-  
   const result = "Article updated";
 
   cb(null, result);
@@ -112,15 +131,25 @@ function create(req, res, payload, cb) {
 
 //возвращает статью с комментариями по переданному в теле запроса id 
 function read(req, res, payload, cb) {
+  
+  let id = payload.id;
+  let result;
 
   const fileContent = fs.readFileSync("articles.json");
   const response = JSON.parse(fileContent);
 
-  let id = payload.id;
-  let message ="Header: "+ response[id]['title']+ "[ " + response[id]['text'] + " ]";
-  message += " Comments: " + response[id]['comments'][0]['text'] + ', ' + response[id]['comments'][1]['text'];
-                              
-  const result = message;
+  let actualId;
+  (Array.from(content)).forEach(element => {
+    actualId = element.id;
+  });
+
+  if(id<actualId){
+    result ="Header: "+ response[id]['title']+ "[ " + response[id]['text'] + " ]";
+    result += " Comments: " + response[id]['comments'][0]['text'] + ', ' + response[id]['comments'][1]['text'];
+
+  }else{
+    result = "Ошибка: неверный индекс";
+  }  
 
   cb(null, result);
 }
@@ -135,7 +164,6 @@ function readall(req, res, payload, cb) {
                                          + response[1]['comments'][1]['text'] +' ); \r\n';
                                               
   const result = message;
-
   cb(null, result);
 }
 
@@ -152,7 +180,8 @@ function parseBodyJson(req, cb) {
     body = Buffer.concat(body).toString();
 
     let params = JSON.parse(body);
-
+    let log = "Тело запроса: " + body;
+    fs.appendFileSync("log.txt", log+ "\r\n");
     cb(null, params);
   });
 }
