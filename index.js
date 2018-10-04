@@ -83,14 +83,29 @@ function update(req, res, payload, cb) {
 
 //создает статью с переданными в теле запроса параметрами / id генерируется на сервере / сервер возвращает созданную статью 
 function create(req, res, payload, cb) {
+  const fileContent = fs.readFileSync("articles.json");
+  const content = JSON.parse(fileContent);
+
+  let id;
+  (Array.from(content)).forEach(element => {
+    id = element.id;
+  });
+
+  id++;
+  console.log(id);
 
   let article = payload;
-  let id = 4;
+  article.id = id;
+  (Array.from(article.comments)).forEach(element => {
+    element.articleId = id;
+  });
 
-  article['id'] = id;
-  article['comments'][0]['articleId'] = id;
+  content[--id] = article; 
+
+  const newJson = JSON.stringify(content);
+  fs.writeFileSync("js.json", newJson);
                               
-  const result = article;
+  const result = "article created";
 
   cb(null, result);
 }
@@ -140,4 +155,8 @@ function parseBodyJson(req, cb) {
 
     cb(null, params);
   });
+}
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
 }
