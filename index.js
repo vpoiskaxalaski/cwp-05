@@ -7,7 +7,12 @@ const handlers = {
   '/sum': sum
 };
 
+const fs = require("fs");
+
+
+
 const server = http.createServer((req, res) => {
+
   parseBodyJson(req, (err, payload) => {
     const handler = getHandler(req.url);
 
@@ -28,6 +33,42 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(port, hostname, () => {
+  const comments = [
+    {
+        "id": "0",
+        "articleId":"2",
+        "text": "shure",
+        "date": "12.12.2016",
+        "author": "Vitalik"
+    },
+    {
+        "id": "1",
+        "articleId":"1",
+        "text": "Burn you!",
+        "date": "12.02.1796",
+        "author": "Efim"
+    },
+    {
+        "id": "3",
+        "articleId":"2",
+        "text": "wow",
+        "date": "05.06.2009",
+        "author": "Alina"
+    }
+  ]
+
+  const articles = {
+    "id": "1",
+    "title": "siens",
+    "text": "Earth is round!" ,
+    "date": "05.01.1686",
+    "author": "Gaalileo Galiley",
+    "comments": comments
+  }
+
+  const a = JSON.stringify(articles);
+  fs.writeFileSync("E:\\University\\3k1s\\PSKP\\git_tutorial\\work\\cwp-05\\jsn.json", a);
+
   console.log(`Server running at http://${hostname}:${port}/`);
 });
 
