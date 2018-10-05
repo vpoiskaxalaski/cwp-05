@@ -50,68 +50,49 @@ function getHandler(url) {
 
 
 ///==================ОБРАБОТЧИКИ URL====================
-//удаляет комментарий по переданному id
-function deleteArticle(req, res, payload, cb) {
-  let result;
+
+//возвращает массив статей с комментариями
+function readall(req, res, payload, cb) {
 
   const fileContent = fs.readFileSync("articles.json");
-  const content = JSON.parse(fileContent);
-
-  let id = payload.id;
-
-  let actualId;
-  (Array.from(content)).forEach(element => {
-    actualId = element.id;
-  });
-
-  if(id<actualId){
-    
-  content[--id] ="{}";
-
-  const newJson = JSON.stringify(content);
-  fs.writeFileSync("js.json", newJson);
-  
-  result = "Article deleted";
-  }else{
-    result = "Ошибка: Выход за пределы массива.";
-  }
-
+  const response = JSON.parse(fileContent);
+  let message = response[0]['title'] + '( '+ response[0]['comments'][0]['text'] + ',' 
+                                            + response[0]['comments'][1]['text'] + ' ),   ';
+  message += response[1]['title'] + '( '+  response[1]['comments'][0]['text'] + ', '
+                                         + response[1]['comments'][1]['text'] +' )';
+                             console.log(message);                 
+  const result = message;
   cb(null, result);
 }
 
-//обновляет статью с переданными параметрами по переданному id
-function update(req, res, payload, cb) {
-
-  let id = payload['id'];
-  console.log(id);
-
-  const fileContent = fs.readFileSync("articles.json");
-  const content = JSON.parse(fileContent);
+//возвращает статью с комментариями по переданному в теле запроса id 
+function read(req, res, payload, cb) {
+  
+  let result;
+  let id = payload.id;
+  let actualId = getID();
+  const content = getJSONContent();
 
   (Array.from(content)).forEach(element => {
     if(id == element.id){
-      element = payload;
+      result ="Header: "+ element['title']+ "[ " + element['text'] + " ]";
+      result += " Comments: " + element['comments'][0]['text'] + ', ' + element['comments'][1]['text'];
     }
   });
-  const newJson = JSON.stringify(content);
-  fs.writeFileSync("js.json", newJson);
-  const result = "Article updated";
 
+    if(result==null){
+      result = { code: 404, message: 'Not found'};
+    }
   cb(null, result);
 }
 
+
 //создает статью с переданными в теле запроса параметрами / id генерируется на сервере / сервер возвращает созданную статью 
 function create(req, res, payload, cb) {
-  const fileContent = fs.readFileSync("articles.json");
-  const content = JSON.parse(fileContent);
+  const fileContent = getJSONContent();
 
-  let id;
-  (Array.from(content)).forEach(element => {
-    id = element.id;
-  });
-
+  let id = getID();
   id++;
-  console.log(id);
 
   let article = payload;
   article.id = id;
@@ -119,52 +100,77 @@ function create(req, res, payload, cb) {
     element.articleId = id;
   });
 
-  content[--id] = article; 
+  fileContent[--id] = article; 
 
-  const newJson = JSON.stringify(content);
-  fs.writeFileSync("js.json", newJson);
-                              
+  rewriteJSON(fileContent);                              
   const result = "article created";
 
   cb(null, result);
 }
 
-//возвращает статью с комментариями по переданному в теле запроса id 
-function read(req, res, payload, cb) {
-  
+//обновляет статью с переданными параметрами по переданному id
+function update(req, res, payload, cb) {
+  const fileContent = getJSONContent();
+
   let id = payload.id;
+  console.log(id);
+  let article = payload;
+
+  fileContent[--id] = article; 
+  
+  rewriteJSON(fileContent);  
+  const result = "Article updated";
+   cb(null, result);
+}
+
+//удаляет комментарий по переданному id
+function deleteArticle(req, res, payload, cb) {
   let result;
 
-  const fileContent = fs.readFileSync("articles.json");
-  const response = JSON.parse(fileContent);
+  const content = getJSONContent();;
+  let id = payload.id;
+  let contextArray = Array.from(content);
 
-  let actualId;
-  (Array.from(content)).forEach(element => {
-    actualId = element.id;
-  });
+  for(let i =0; i<contextArray.length; i++){
+    if(id == contextArray[i].id){
+        delete contextArray[i];
 
-  if(id<actualId){
-    result ="Header: "+ response[id]['title']+ "[ " + response[id]['text'] + " ]";
-    result += " Comments: " + response[id]['comments'][0]['text'] + ', ' + response[id]['comments'][1]['text'];
-
-  }else{
-    result = "Ошибка: неверный индекс";
-  }  
+        rewriteJSON(contextArray); 
+  
+      result = "Article deleted";
+    }
+  }
+  
+  if(result==null){
+    result = { code: 404, message: 'Not found'};
+  }
 
   cb(null, result);
 }
-//возвращает массив статей с комментариями
-function readall(req, res, payload, cb) {
 
+//===================ДОП ФУНКЦИОНАЛ=================
+//считывание файло json и получение id
+function getID(){
+  const fileContent = getJSONContent();
+
+  let actualId;
+  (Array.from(fileContent)).forEach(element => {
+    actualId = element.id;
+  });
+
+  return actualId;
+}
+
+function getJSONContent(){
   const fileContent = fs.readFileSync("articles.json");
   const response = JSON.parse(fileContent);
-  let message = response[0]['title'] + '( '+ response[0]['comments'][0]['text'] + ',' 
-                                            + response[0]['comments'][1]['text'] + ' );\r\n';
-  message += response[1]['title'] + '( '+  response[1]['comments'][0]['text'] + ', '
-                                         + response[1]['comments'][1]['text'] +' ); \r\n';
-                                              
-  const result = message;
-  cb(null, result);
+
+  return response;
+}
+
+function rewriteJSON(cntnt){
+  const newJson = JSON.stringify(cntnt);
+  fs.writeFileSync("js.json", newJson);
 }
 
 function notFound(req, res, payload, cb) {
@@ -184,8 +190,4 @@ function parseBodyJson(req, cb) {
     fs.appendFileSync("log.txt", log+ "\r\n");
     cb(null, params);
   });
-}
-
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
 }

@@ -7,7 +7,7 @@
         "comments":
                     [
                         {
-                            "id":"0",
+                            "id":0,
                             "articleId":"",
                             "text":"shure",
                             "date":"12.12.2016",
