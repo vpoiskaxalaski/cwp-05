@@ -9,7 +9,9 @@ const handlers = {
   '/api/articles/read': read,//возвращает статью с комментариями по переданному в теле запроса id 
   '/api/articles/create': create, //создает статью с переданными в теле запроса параметрами / id генерируется на сервере / сервер возвращает созданную статью 
   '/api/articles/update': update, //обновляет статью с переданными параметрами по переданному id
-  '/api/articles/delete': deleteArticle //удаляет комментарий по переданному id
+  '/api/articles/delete': deleteArticle, //удаляет комментарий по переданному id
+  '/api/comments/create': createComment,
+  '/api/comments/delete': deleteComment 
 };
 
 
@@ -70,7 +72,6 @@ function read(req, res, payload, cb) {
   
   let result;
   let id = payload.id;
-  let actualId = getID();
   const content = getJSONContent();
 
   (Array.from(content)).forEach(element => {
@@ -111,14 +112,17 @@ function create(req, res, payload, cb) {
 //обновляет статью с переданными параметрами по переданному id
 function update(req, res, payload, cb) {
   const fileContent = getJSONContent();
-
+  let fileContentArr = Array.from(fileContent);
   let id = payload.id;
-  console.log(id);
   let article = payload;
 
-  fileContent[--id] = article; 
+  for(let i=0;i< fileContentArr.length; i++){
+    if(fileContentArr[i].id == id){
+      fileContentArr[i] = article;
+    }
+  }
   
-  rewriteJSON(fileContent);  
+  rewriteJSON(fileContentArr);  
   const result = "Article updated";
    cb(null, result);
 }
@@ -139,6 +143,58 @@ function deleteArticle(req, res, payload, cb) {
   
       result = "Article deleted";
     }
+  }
+  
+  if(result==null){
+    result = { code: 404, message: 'Not found'};
+  }
+
+  cb(null, result);
+}
+
+//создает комментарий 
+function createComment(req, res, payload, cb) {
+  const fileContent = getJSONContent();
+  let fileContentArr = Array.from(fileContent);
+
+  let id = payload.articleId;
+
+  let newComment = payload;
+  (Array.from(fileContentArr)).forEach(a => {
+    if(a.id == id){
+      let commentArray = a.comments;
+      commentArray[commentArray.length] = newComment;
+    }
+    
+  });
+  console.log(fileContentArr);
+  rewriteJSON(fileContentArr);                              
+  const result = "comment created";
+
+  cb(null, result);
+}
+
+//удаляет комментарий
+function deleteComment(req, res, payload, cb) {
+  let result;
+
+  const content = getJSONContent();;
+  let idA = payload.articleId;
+  let idC = payload.id;
+  let contextArray = Array.from(content);
+
+  for(let i =0; i<contextArray.length; i++){
+    if(idA == contextArray[i].id){
+      let commentArray = contextArray[i].comments;
+      for(let j = 0; j< commentArray.length;j++){
+        if(idC == commentArray[j].id){
+          delete commentArray[j];
+        }
+      }
+      rewriteJSON(contextArray); 
+  
+      result = "comment deleted";
+    }  
   }
   
   if(result==null){

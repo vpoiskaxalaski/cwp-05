@@ -456,3 +456,263 @@ URL: /api/articles/update
 Дата: 5.9.2018
 Время: 11 ч. 8 мин. 
 URL: /api/articles/update
+Тело запроса: {
+  "id": "1"
+}
+Дата: 5.9.2018
+Время: 23 ч. 54 мин. 
+URL: /api/articles/read
+Тело запроса: {
+  "id": "2"
+}
+Дата: 6.9.2018
+Время: 8 ч. 9 мин. 
+URL: /api/articles/readall
+Тело запроса: {
+  "id": "2"
+}
+Дата: 6.9.2018
+Время: 8 ч. 10 мин. 
+URL: /api/articles/read
+Тело запроса: {
+  "id": "dfe"
+}
+Дата: 6.9.2018
+Время: 8 ч. 10 мин. 
+URL: /api/articles/read
+Тело запроса: {
+		"id" : "",
+        "title":"economic",
+        "text":"Dolar costs more now",
+        "date":"10.09.2010",
+        "author":"Maksin Nevskiy",
+        "comments":
+                    [
+                        {
+                            "id":0,
+                            "articleId":"",
+                            "text":"shure",
+                            "date":"12.12.2016",
+                            "author":"Vitalik"
+                        }
+                        ]
+  }
+Дата: 6.9.2018
+Время: 8 ч. 10 мин. 
+URL: /api/articles/create
+Тело запроса: {
+		"id" : "2",
+        "title":"economic",
+        "text":"Dolar costs more now",
+        "date":"10.09.2010",
+        "author":"Maksin Nevskiy",
+        "comments":
+                    [
+                        {
+                            "id":0,
+                            "articleId":"2",
+                            "text":"shure",
+                            "date":"12.12.2016",
+                            "author":"Vitalik"
+                        }
+                        ]
+  }
+Дата: 6.9.2018
+Время: 8 ч. 12 мин. 
+URL: /api/articles/update
+Тело запроса: {
+		"id" : "2",
+        "title":"economic",
+        "text":"Dolar costs more now",
+        "date":"10.09.2010",
+        "author":"Maksin Nevskiy",
+        "comments":
+                    [
+                        {
+                            "id":0,
+                            "articleId":"2",
+                            "text":"shure",
+                            "date":"12.12.2016",
+                            "author":"Vitalik"
+                        }
+                        ]
+  }
+Дата: 6.9.2018
+Время: 8 ч. 12 мин. 
+URL: /api/articles/update
+Тело запроса: {
+		"id" : "1"
+  }
+Дата: 6.9.2018
+Время: 8 ч. 13 мин. 
+URL: /api/articles/delete
+Тело запроса: {
+                            "id":1,
+                            "articleId":"1",
+                            "text":"shure",
+                            "date":"12.12.2016",
+                            "author":"Vitalik"
+                        }
+Дата: 6.9.2018
+Время: 8 ч. 24 мин. 
+URL: /api/comments/create
+Тело запроса: {
+                            "id":1,
+                            "articleId":"1",
+                            "text":"shure",
+                            "date":"12.12.2016",
+                            "author":"Vitalik"
+                        }
+Дата: 6.9.2018
+Время: 8 ч. 26 мин. 
+URL: /api/comments/create
+Тело запроса: {
+                            "id":1,
+                            "articleId":"1",
+                            "text":"shure",
+                            "date":"12.12.2016",
+                            "author":"Vitalik"
+                        }
+Дата: 6.9.2018
+Время: 8 ч. 30 мин. 
+URL: /api/comments/delete
+Тело запроса: {
+                            "id":2,
+                            "articleId":"3",
+                            "text":"shure",
+                            "date":"12.12.2016",
+                            "author":"Vitalik"
+                        }
+Дата: 6.9.2018
+Время: 8 ч. 31 мин. 
+URL: /api/comments/delete
+Тело запроса: {
+                            "id":3,
+                            "articleId":"2",
+                            "text":"shure",
+                            "date":"12.12.2016",
+                            "author":"Vitalik"
+                        }
+Дата: 6.9.2018
+Время: 8 ч. 31 мин. 
+URL: /api/comments/delete
+Тело запроса: {
+		"id" : "1",
+        "title":"economic",
+        "text":"Dolar costs more now",
+        "date":"10.09.2010",
+        "author":"Maksin Nevskiy",
+        "comments":
+                    [
+                        {
+                            "id":0,
+                            "articleId":"1",
+                            "text":"shure",
+                            "date":"12.12.2016",
+                            "author":"Vitalik"
+                        }
+                        ]
+  }
+Дата: 6.9.2018
+Время: 8 ч. 34 мин. 
+URL: /api/comments/delete
+Тело запроса: {
+		"id" : "1",
+        "title":"economic",
+        "text":"Dolar costs more now",
+        "date":"10.09.2010",
+        "author":"Maksin Nevskiy",
+        "comments":
+                    [
+                        {
+                            "id":0,
+                            "articleId":"1",
+                            "text":"shure",
+                            "date":"12.12.2016",
+                            "author":"Vitalik"
+                        }
+                        ]
+  }
+Дата: 6.9.2018
+Время: 8 ч. 35 мин. 
+URL: /api/comments/update
+Тело запроса: {
+		"id" : "1",
+        "title":"economic",
+        "text":"Dolar costs more now",
+        "date":"10.09.2010",
+        "author":"Maksin Nevskiy",
+        "comments":
+                    [
+                        {
+                            "id":0,
+                            "articleId":"1",
+                            "text":"shure",
+                            "date":"12.12.2016",
+                            "author":"Vitalik"
+                        }
+                        ]
+  }
+Дата: 6.9.2018
+Время: 8 ч. 35 мин. 
+URL: /api/comments/update
+Тело запроса: {
+		"id" : "1",
+        "title":"economic",
+        "text":"Dolar costs more now",
+        "date":"10.09.2010",
+        "author":"Maksin Nevskiy",
+        "comments":
+                    [
+                        {
+                            "id":0,
+                            "articleId":"1",
+                            "text":"shure",
+                            "date":"12.12.2016",
+                            "author":"Vitalik"
+                        }
+                        ]
+  }
+Дата: 6.9.2018
+Время: 8 ч. 36 мин. 
+URL: /api/comments/update
+Тело запроса: {
+		"id" : "1",
+        "title":"economic",
+        "text":"Dolar costs more now",
+        "date":"10.09.2010",
+        "author":"Maksin Nevskiy",
+        "comments":
+                    [
+                        {
+                            "id":0,
+                            "articleId":"1",
+                            "text":"shure",
+                            "date":"12.12.2016",
+                            "author":"Vitalik"
+                        }
+                        ]
+  }
+Дата: 6.9.2018
+Время: 8 ч. 40 мин. 
+URL: /api/comments/update
+Тело запроса: {
+		"id" : "1",
+        "title":"economic",
+        "text":"Dolar costs more now",
+        "date":"10.09.2010",
+        "author":"Maksin Nevskiy",
+        "comments":
+                    [
+                        {
+                            "id":0,
+                            "articleId":"1",
+                            "text":"shure",
+                            "date":"12.12.2016",
+                            "author":"Vitalik"
+                        }
+                        ]
+  }
+Дата: 6.9.2018
+Время: 8 ч. 40 мин. 
+URL: /api/articles/update
