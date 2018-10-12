@@ -716,3 +716,53 @@ URL: /api/comments/update
 Дата: 6.9.2018
 Время: 8 ч. 40 мин. 
 URL: /api/articles/update
+Тело запроса: {
+		"id" : "1",
+        "title":"economic",
+        "text":"Dolar costs more now",
+        "date":"10.09.2010",
+        "author":"Maksin Nevskiy",
+        "comments":
+                    [
+                        {
+                            "id":0,
+                            "articleId":"1",
+                            "text":"shure",
+                            "date":"12.12.2016",
+                            "author":"Vitalik"
+                        }
+                        ]
+  }
+Дата: 6.9.2018
+Время: 9 ч. 6 мин. 
+URL: /api/articles/update
+Тело запроса: {
+                            "id":3,
+                            "articleId":"2",
+                            "text":"shure",
+                            "date":"12.12.2016",
+                            "author":"Vitalik"
+                        }
+Дата: 6.9.2018
+Время: 9 ч. 6 мин. 
+URL: /api/comments/delete
+Тело запроса: {
+                            "id":3,
+                            "articleId":"1",
+                            "text":"shure",
+                            "date":"12.12.2016",
+                            "author":"Vitalik"
+               }
+Дата: 6.9.2018
+Время: 9 ч. 7 мин. 
+URL: /api/comments/create
+Тело запроса: {
+                            "id":3,
+                            "articleId":"1",
+                            "text":"shure",
+                            "date":"12.12.2016",
+                            "author":"Vitalik"
+               }
+Дата: 6.9.2018
+Время: 9 ч. 7 мин. 
+URL: /api/comments/create
